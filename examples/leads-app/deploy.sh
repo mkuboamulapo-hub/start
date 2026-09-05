@@ -44,22 +44,34 @@ node -e '
 step "テーブルを作成します"
 npx wrangler d1 execute "$DB_NAME" --remote --file=./schema.sql -y
 
+step "デプロイします"
+npx wrangler deploy
+
 step "管理画面の合言葉を設定します"
 if npx wrangler secret list 2>/dev/null | grep -q 'ADMIN_PASSWORD'; then
   echo "ADMIN_PASSWORD は設定済みです（変更するなら: npx wrangler secret put ADMIN_PASSWORD）"
-else
-  echo "管理画面 (/admin) を開くための合言葉を入力してください:"
+elif [ -t 0 ]; then
+  echo "管理画面 (/admin) を開くための合言葉を入力してください（画面には表示されません）:"
   npx wrangler secret put ADMIN_PASSWORD
-fi
+else
+  cat <<'MANUAL'
+合言葉の入力を受け取れない環境のため、この手順はスキップしました。
+デプロイ自体は完了しています。次のどちらかで合言葉を設定してください。
 
-step "デプロイします"
-npx wrangler deploy
+  ・ターミナルで:  npx wrangler secret put ADMIN_PASSWORD
+  ・Cloudflare の画面で:
+      Workers & Pages → leads-app → Settings → Variables and Secrets
+      → Add で 種類 Secret / 名前 ADMIN_PASSWORD / 値 お好きな合言葉
+
+設定するまでの間、/admin は中身を一切表示しません（安全側で止まります）。
+MANUAL
+fi
 
 cat <<'DONE'
 
 ────────────────────────────────────────
  完了しました。上に表示された URL で:
    /       … 申し込みフォーム（お客さまに配るページ）
-   /admin  … 申し込み一覧（ユーザー名は任意 / 合言葉は今設定したもの）
+   /admin  … 申し込み一覧（ユーザー名は何でも可 / 合言葉は上で設定したもの）
 ────────────────────────────────────────
 DONE
