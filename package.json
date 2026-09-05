@@ -1,0 +1,16 @@
+{
+  "name": "kouza-survey",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "講座アンケートフォーム (Cloudflare Workers + D1)",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:init:local": "wrangler d1 execute kouza-survey-db --local --file=./schema.sql",
+    "db:init:remote": "wrangler d1 execute kouza-survey-db --remote --file=./schema.sql"
+  },
+  "devDependencies": {
+    "wrangler": "^4"
+  }
+}
