@@ -6,6 +6,7 @@
   "description": "無料相談フォーム＋見込み顧客管理アプリ (Cloudflare Workers + D1)",
   "scripts": {
     "dev": "wrangler dev",
+    "build": "esbuild src/index.js --bundle --format=esm --charset=utf8 --outfile=dist/worker.js",
     "deploy": "wrangler deploy",
     "db:init:local": "wrangler d1 execute leads-app-db --local --file=./schema.sql",
     "db:init:remote": "wrangler d1 execute leads-app-db --remote --file=./schema.sql"

@@ -12,6 +12,14 @@ Cloudflare Workers + D1 だけで動きます。受講者が自分で作った�
 
 ## デプロイ
 
+やり方は2つあります。
+
+- **ターミナルが使える** → 下の「1コマンドでデプロイ」
+- **ターミナルを使いたくない／使えない** → [`deploy-from-dashboard.md`](./deploy-from-dashboard.md)
+  （Cloudflareの画面に `dist/worker.js` を貼るだけ。Node.js もターミナルも不要）
+
+### 1コマンドでデプロイ
+
 このフォルダに入って、次の 1 行を実行するだけです。
 
 ```bash
