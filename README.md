@@ -45,6 +45,37 @@ https://kouza-survey.<あなたのサブドメイン>.workers.dev
 
 このアドレスを受講者に配ってください。`/admin` を付けると回答一覧です。
 
+## パソコンに何もインストールできないとき（ブラウザだけで公開する）
+
+会社の PC などで Node.js や Git を入れられない場合は、Cloudflare の管理画面
+（ダッシュボード）だけで公開できます。ターミナルもディスク容量も要りません。
+
+貼り付ける用に、`src/` の 4 ファイルを 1 つにまとめたものを用意してあります。
+
+```
+worker-single-file.js
+```
+
+手順は 5 つです。
+
+1. **Worker を作る** — ダッシュボードの Workers から新規作成し、いったんそのまま Deploy
+2. **コードを貼る** — Edit code を開き、中身を全部消して `worker-single-file.js` を貼って Deploy
+3. **D1 を作る** — Storage & Databases の D1 で `kouza-survey-db` を作成し、
+   Console に `schema.sql` の中身を貼って実行（テーブルができます）
+4. **D1 をつなぐ** — Worker の Settings → Bindings で D1 を追加し、
+   変数名を必ず **`DB`** にして `kouza-survey-db` を選ぶ
+5. **パスワードを設定** — Settings → Variables and Secrets で
+   **Secret** として `ADMIN_PASSWORD` を追加
+
+これで Worker の URL がそのまま公開 URL になります。
+
+`worker-single-file.js` は自動生成ファイルです。直接編集せず、`src/` を直したうえで
+次のコマンドで作り直してください。
+
+```bash
+node build-single-file.mjs
+```
+
 ## 回答一覧を見る
 
 `https://.../admin` を開くとユーザー名とパスワードを聞かれます。
